@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+/* Native selects/options need explicit colors (Windows/Chrome) */
+select {
+  color: rgb(244 244 245) !important; /* zinc-100 */
+  background-color: rgb(24 24 27) !important; /* zinc-900 */
+}
+
+option {
+  color: rgb(244 244 245) !important; /* zinc-100 */
+  background-color: rgb(24 24 27) !important; /* zinc-900 */
+}
+
