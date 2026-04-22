@@ -34,8 +34,10 @@ app.use("/api", apiRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(env.PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Express API listening on http://localhost:${env.PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(env.PORT, () => {
+    console.log(`Express API listening on http://localhost:${env.PORT}`);
+  });
+}
 
+export default app;
