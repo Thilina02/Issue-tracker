@@ -4,7 +4,6 @@ const envSchema = z.object({
   NODE_ENV: z.string().optional(),
   PORT: z.coerce.number().int().positive().optional().default(4000),
   CORS_ORIGIN: z.string().optional().default("http://localhost:3000"),
-  DNS_SERVERS: z.string().optional().default("8.8.8.8,1.1.1.1"),
   MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
 });

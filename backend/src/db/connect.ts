@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import dns from "node:dns";
 import { getEnv } from "../config/env";
 import { HttpError } from "../middleware/error";
 
@@ -8,15 +7,7 @@ const globalForMongoose = globalThis as typeof globalThis & {
 };
 
 export async function connectDB(): Promise<typeof mongoose> {
-  const { MONGODB_URI, DNS_SERVERS } = getEnv();
-
-  // SRV records for mongodb+srv rely on DNS; override to stable public resolvers.
-  if (MONGODB_URI.startsWith("mongodb+srv://")) {
-    const servers = DNS_SERVERS.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    if (servers.length > 0) dns.setServers(servers);
-  }
+  const { MONGODB_URI } = getEnv();
 
   if (!globalForMongoose._mongooseConn) {
     globalForMongoose._mongooseConn = (async () => {
