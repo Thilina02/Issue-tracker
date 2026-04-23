@@ -13,6 +13,18 @@ function buildApp() {
     .map((o) => o.trim())
     .filter(Boolean);
 
+  function isOriginAllowed(origin: string) {
+    // Support simple wildcards like "*.vercel.app" (suffix match).
+    for (const entry of allowedOrigins) {
+      if (entry === origin) return true;
+      if (entry.startsWith("*.")) {
+        const suffix = entry.slice(1); // ".vercel.app"
+        if (origin.endsWith(suffix)) return true;
+      }
+    }
+    return false;
+  }
+
   const app = express();
 
   app.use(morgan("dev"));
@@ -21,7 +33,7 @@ function buildApp() {
       origin: (origin, callback) => {
         // Allow non-browser or same-origin requests with no Origin header.
         if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) return callback(null, true);
+        if (isOriginAllowed(origin)) return callback(null, true);
         return callback(new Error(`Origin ${origin} not allowed by CORS`));
       },
       credentials: true,
